@@ -1,27 +1,31 @@
-import React from "react";
-import { motion } from "framer-motion";
-import bgimg from '../assets/bg/gameloop.jpg'
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import bgimg from "../assets/bg/gameloop.jpg";
 
 const GameLoop = () => {
-  return (
-    <section className="6 bg-[#0d0517]" id="gameloop">
-      <div
-        className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between relative"
-        style={{
-          backgroundImage: `url(${bgimg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "600px",
-        }}
-      >
-        {/* Overlay to darken the background */}
-        <div className="absolute inset-0 bg-black opacity-50 z-0"></div>
+  const ref = useRef(null);
+  const isInView = useInView(ref, { triggerOnce: false, margin: "-50px" });
 
-        {/* Left Section - Background Image (hidden on small screens, visible on medium and larger) */}
-        <div className="hidden md:block w-full md:w-1/2 h-[400px] lg:h-[500px] rounded-lg shadow-lg mb-8 md:mb-0 z-10"></div>
+  return (
+    <section
+      ref={ref}
+      className="relative bg-[#0d0517] min-h-[600px] w-full bg-cover bg-center bg-no-repeat flex items-center justify-center"
+      id="gameloop"
+      style={{
+        backgroundImage: `url(${bgimg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
+        {/* Left Section */}
+        <div className="hidden md:block w-full md:w-1/2 h-[400px] lg:h-[500px] rounded-lg shadow-lg mb-8 md:mb-0"></div>
 
         {/* Right Section - Steps */}
-        <div className="w-full md:w-1/2 space-y-6 sm:space-y-8 relative z-10 ml-10">
+        <div className="w-full md:w-1/2 space-y-6 sm:space-y-8 relative ml-10">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6 text-shadow-custom">
             The Gameplay Loop
           </h2>
@@ -29,15 +33,15 @@ const GameLoop = () => {
           {/* Vertical Line for Timeline */}
           <motion.div
             initial={{ height: "0px" }}
-            animate={{ height: "100%" }}
+            animate={isInView ? { height: "100%" } : {}}
             transition={{ duration: 9, ease: "linear" }}
             className="absolute left-[-15px] lg:left-[-25px] top-0 w-1 bg-[#07030b]"
           ></motion.div>
 
           {/* Step 1 */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0, duration: 3 }}
             className="relative flex items-start"
           >
@@ -50,8 +54,8 @@ const GameLoop = () => {
 
           {/* Step 2 */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 3, duration: 3 }}
             className="relative flex items-start"
           >
@@ -64,8 +68,8 @@ const GameLoop = () => {
 
           {/* Step 3 */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 6, duration: 3 }}
             className="relative flex items-start"
           >
@@ -78,8 +82,8 @@ const GameLoop = () => {
 
           {/* Step 4 */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 9, duration: 3 }}
             className="relative flex items-start"
           >
