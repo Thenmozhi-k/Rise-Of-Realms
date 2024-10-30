@@ -64,7 +64,7 @@ const Hero = () => {
         <img
           src={characters[currentCharIndex]}
           alt="Character"
-          className="w-[250px] h-[370px] object-cover rounded-lg shadow-lg transition duration-1000 ease-in-out"
+          className="w-[250px] h-[370px] object-cover rounded-lg shadow-lg  transition duration-1000 ease-in-out"
         />
       </div>
     </div>

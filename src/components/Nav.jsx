@@ -34,7 +34,7 @@ const Nav = () => {
     return (
         <header className='w-full fixed top-0 left-0 right-0 z-50'>
             <nav
-                className={`lg:px-14 px-4 ${isSticky ? "bg-[#0d0517] text-white shadow-md" : "bg-transparent text-white"} transition-all duration-300 ease-in-out`}
+                className={`lg:px-14 px-4 ${isSticky ? "bg-[#0d0517] text-white shadow-md" : "bg-[#0d0517]/30  backdrop-blur-md text-white"} transition-all duration-300 ease-in-out`}
                 style={{ padding: '0 5%' }}
             >
                 <div className='flex justify-between items-center py-4'>
