@@ -50,7 +50,7 @@ const Hero = () => {
                 if (response.ok) {
                     console.log("Data sent successfully:", await response.json());
                     // Redirect to the new URL with address at the end
-                    window.location.href = `https://proto-star.vercel.app/${address}`;
+                    window.location.href = `https://protostar-metaverse.vercel.app/${address}`;
                 } else {
                     console.error("Failed to send data. Status code:", response.status);
                 }
