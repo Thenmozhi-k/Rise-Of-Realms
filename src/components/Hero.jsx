@@ -9,6 +9,7 @@ import char6 from '../assets/char6.png';
 import bg from '../assets/magicstudio-art.jpg'
 import { useAddress } from '../components/AddressContext';
 
+
 const Hero = () => {
   const characters = [char1, char2, char3, char4, char5, char6];
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
@@ -22,23 +23,47 @@ const Hero = () => {
 
     return () => clearInterval(charInterval);
   }, [characters.length]);
-  
-  const handleClick = () => {
+
+
+  const handleClick = async () => {
     if (!address) {
         alert('Please connect your wallet first.');
     } else {
-        // Prompt for the username
         const username = prompt("Please enter your username:");
-        
-        // Check if username is provided
         if (username && username.trim()) {
             console.log(`Username: ${username}, Address: ${address}`);
-            // Proceed with any other logic here
+            
+            const payload = {
+                username: username.trim(),
+                user_wallet_address: address
+            };
+
+            try {
+                const response = await fetch('https://virtual-gf-py.vercel.app/user/add_user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    console.log("Data sent successfully:", await response.json());
+                    // Redirect to the new URL
+                    window.location.href = "https://metaverse-ror.vercel.app/user_wallet_address";
+                } else {
+                    console.error("Failed to send data. Status code:", response.status);
+                }
+            } catch (error) {
+                console.error("An error occurred while sending data:", error);
+            }
         } else {
             alert("Username is required to proceed.");
         }
     }
 };
+
+  
 
 
 
