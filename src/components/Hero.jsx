@@ -49,8 +49,8 @@ const Hero = () => {
 
                 if (response.ok) {
                     console.log("Data sent successfully:", await response.json());
-                    // Redirect to the new URL
-                    window.location.href = "https://metaverse-ror.vercel.app/user_wallet_address";
+                    // Redirect to the new URL with address at the end
+                    window.location.href = `https://proto-star.vercel.app/${address}`;
                 } else {
                     console.error("Failed to send data. Status code:", response.status);
                 }
@@ -62,9 +62,6 @@ const Hero = () => {
         }
     }
 };
-
-  
-
 
 
   return (
