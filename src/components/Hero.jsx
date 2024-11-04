@@ -24,6 +24,22 @@ const Hero = () => {
     return () => clearInterval(charInterval);
   }, [characters.length]);
 
+  useEffect(async () => {
+   // Check if the user exists based on the address
+   const checkResponse = await fetch(`https://virtual-gf-py.vercel.app/user/check_user?username=${address}`);
+   console.log(`https://virtual-gf-py.vercel.app/user/check_user?username=${address}`);
+   console.log("checkResponse",checkResponse);
+   if (checkResponse.ok) {
+       const userExists = await checkResponse.json();
+
+       if (userExists.message ==="User exists") {
+           // If user exists, redirect to the URL with the address
+           window.location.href = `https://protostar-metaverse.vercel.app/${address}`;
+           return;
+       }
+   }
+  }, []);
+
 
   const handleClick = async () => {
     if (!address) {
@@ -32,19 +48,7 @@ const Hero = () => {
     }
 
     try {
-        // Check if the user exists based on the address
-        const checkResponse = await fetch(`https://virtual-gf-py.vercel.app/user/check_user?username=${address}`);
-        console.log(`https://virtual-gf-py.vercel.app/user/check_user?username=${address}`);
-        console.log("checkResponse",checkResponse);
-        if (checkResponse.ok) {
-            const userExists = await checkResponse.json();
-
-            if (userExists.message ==="User exists") {
-                // If user exists, redirect to the URL with the address
-                window.location.href = `https://protostar-metaverse.vercel.app/${address}`;
-                return;
-            }
-        }
+        
 
         // If user does not exist, prompt for the username and proceed to add the user
         const username = prompt("Please enter your username:");
