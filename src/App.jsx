@@ -9,12 +9,22 @@ import MiniGames from './components/MiniGames'
 import Nav from './components/Nav'
 import NftMarket from './components/NftMarket'
 import SofiaAi from './components/SofiaAi'
+import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
+import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
+import { AddressProvider } from "./components/AddressContext"
 
 function App() {
 
 
   return (
     <>
+    <DynamicContextProvider
+            settings={{
+                environmentId: '09c22ca0-8d2b-4bfc-956e-3aa619ddcbbc',
+                walletConnectors: [EthereumWalletConnectors],
+            }}
+        >
+         <AddressProvider>
      <Nav/>
      <Hero/>
      <Features/>
@@ -24,6 +34,8 @@ function App() {
      <SofiaAi/>
      <Community/>
      <Footer/>
+     </AddressProvider>
+     </DynamicContextProvider>
     </>
   )
 }

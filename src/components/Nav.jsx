@@ -2,12 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
 import { FaBars, FaTimes } from "react-icons/fa";
 import logo from '../assets/logo.png';
-import {
-    DynamicContextProvider,
-    DynamicWidget,
-  } from "@dynamic-labs/sdk-react-core";
+import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
   import { EthersExtension } from "@dynamic-labs/ethers-v5";
-  
+  import { useAddress } from '../components/AddressContext';
   import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
   
 
@@ -16,7 +13,13 @@ import {
 const Nav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
-
+    const { setAddress } = useAddress();
+    const { user } = useDynamicContext();
+    console.log("user",user);
+    const address = user?.verifiedCredentials?.[0]?.address;
+    setAddress(address);
+    console.log("address",address);
+    
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -31,6 +34,8 @@ const Nav = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+    
+   
 
     const navItems = [
         { link: "Home", path: "home" },
@@ -42,12 +47,9 @@ const Nav = () => {
     ];
 
     return (
+       
                 <header className='w-full fixed top-0 left-0 right-0 z-50'>
-                    <DynamicContextProvider
-            settings={{
-            environmentId: '09c22ca0-8d2b-4bfc-956e-3aa619ddcbbc',
-            walletConnectors: [ EthereumWalletConnectors ],
-            }}>
+                    
     
   
             <nav
@@ -129,8 +131,9 @@ const Nav = () => {
                     </div>
                 </div>
             </nav>
-            </DynamicContextProvider>
+            
         </header>
+      
     );
 };
 

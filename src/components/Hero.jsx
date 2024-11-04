@@ -7,10 +7,13 @@ import char4 from '../assets/char4.png';
 import char5 from '../assets/char5.png';
 import char6 from '../assets/char6.png';
 import bg from '../assets/magicstudio-art.jpg'
+import { useAddress } from '../components/AddressContext';
 
 const Hero = () => {
   const characters = [char1, char2, char3, char4, char5, char6];
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
+  const { address } = useAddress();
+  console.log("addressin hero:",address)
 
   useEffect(() => {
     const charInterval = setInterval(() => {
@@ -19,6 +22,25 @@ const Hero = () => {
 
     return () => clearInterval(charInterval);
   }, [characters.length]);
+  
+  const handleClick = () => {
+    if (!address) {
+        alert('Please connect your wallet first.');
+    } else {
+        // Prompt for the username
+        const username = prompt("Please enter your username:");
+        
+        // Check if username is provided
+        if (username && username.trim()) {
+            console.log(`Username: ${username}, Address: ${address}`);
+            // Proceed with any other logic here
+        } else {
+            alert("Username is required to proceed.");
+        }
+    }
+};
+
+
 
   return (
     <div  id='home'
@@ -45,7 +67,7 @@ const Hero = () => {
         <p className="text-base md:text-lg lg:text-xl">
           Create your world, compete with others, and trade NFT worlds in a vibrant metaverse.
         </p>
-        <button className="px-6 py-3 bg-[#8689EB] border border-[#07030b] text-white font-semibold rounded-lg shadow-md hover:border-[#64748B] hover:border hover:bg-[#07030b] transition duration-300">
+        <button onClick={handleClick} className="px-6 py-3 bg-[#8689EB] border border-[#07030b] text-white font-semibold rounded-lg shadow-md hover:border-[#64748B] hover:border hover:bg-[#07030b] transition duration-300">
           Join Now
         </button>
       </div>
