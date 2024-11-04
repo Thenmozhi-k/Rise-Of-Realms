@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-scroll';
 import { FaBars, FaTimes } from "react-icons/fa";
 import logo from '../assets/logo.png';
+import {
+    DynamicContextProvider,
+    DynamicWidget,
+  } from "@dynamic-labs/sdk-react-core";
+  import { EthersExtension } from "@dynamic-labs/ethers-v5";
+  
+  import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
+  
+
+
 
 const Nav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,9 +42,16 @@ const Nav = () => {
     ];
 
     return (
-        <header className='w-full fixed top-0 left-0 right-0 z-50'>
+                <header className='w-full fixed top-0 left-0 right-0 z-50'>
+                    <DynamicContextProvider
+            settings={{
+            environmentId: '09c22ca0-8d2b-4bfc-956e-3aa619ddcbbc',
+            walletConnectors: [ EthereumWalletConnectors ],
+            }}>
+    
+  
             <nav
-                className={`lg:px-14 px-4 ${isSticky ? "bg-[#0d0517] text-white shadow-md" : "bg-[#0d0517]/30  backdrop-blur-md text-white"} transition-all duration-300 ease-in-out`}
+                className={`lg:px-14 px-4 ${isSticky ? "bg-[#0d0517] text-white shadow-md" : "bg-[#0d0517]/20  backdrop-blur-md text-white"} transition-all duration-300 ease-in-out`}
                 style={{ padding: '0 5%' }}
             >
                 <div className='flex justify-between items-center py-4'>
@@ -68,13 +85,7 @@ const Nav = () => {
                         </ul>
 
                         {/* Connect Button */}
-                        <a
-                            href="#connect"
-                            className="ml-2 lg:ml-4 px-4 lg:px-6 py-2 bg-[#64748B] text-white text-sm lg:text-lg rounded-lg hover:bg-[#8689eb94] transition duration-300 ease-in-out"
-                            style={{ border: 'none' }}
-                        >
-                            Connect
-                        </a>
+                        <DynamicWidget />
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -118,6 +129,7 @@ const Nav = () => {
                     </div>
                 </div>
             </nav>
+            </DynamicContextProvider>
         </header>
     );
 };
