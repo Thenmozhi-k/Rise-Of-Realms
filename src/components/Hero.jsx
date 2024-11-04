@@ -28,38 +28,53 @@ const Hero = () => {
   const handleClick = async () => {
     if (!address) {
         alert('Please connect your wallet first.');
-    } else {
+        return;
+    }
+
+    try {
+        // Check if the user exists based on the address
+        const checkResponse = await fetch(`https://virtual-gf-py.vercel.app/user/check_user?username=${address}`);
+        console.log(`https://virtual-gf-py.vercel.app/user/check_user?username=${address}`);
+        console.log("checkResponse",checkResponse);
+        if (checkResponse.ok) {
+            const userExists = await checkResponse.json();
+
+            if (userExists.message ==="User exists") {
+                // If user exists, redirect to the URL with the address
+                window.location.href = `https://protostar-metaverse.vercel.app/${address}`;
+                return;
+            }
+        }
+
+        // If user does not exist, prompt for the username and proceed to add the user
         const username = prompt("Please enter your username:");
+        
         if (username && username.trim()) {
-            console.log(`Username: ${username}, Address: ${address}`);
-            
             const payload = {
                 username: username.trim(),
                 user_wallet_address: address
             };
 
-            try {
-                const response = await fetch('https://virtual-gf-py.vercel.app/user/add_user', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
+            const addResponse = await fetch('https://virtual-gf-py.vercel.app/user/add_user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
 
-                if (response.ok) {
-                    console.log("Data sent successfully:", await response.json());
-                    // Redirect to the new URL with address at the end
-                    window.location.href = `https://protostar-metaverse.vercel.app/${address}`;
-                } else {
-                    console.error("Failed to send data. Status code:", response.status);
-                }
-            } catch (error) {
-                console.error("An error occurred while sending data:", error);
+            if (addResponse.ok) {
+                console.log("Data sent successfully:", await addResponse.json());
+                // Redirect to the new URL with address at the end
+                window.location.href = `https://protostar-metaverse.vercel.app/${address}`;
+            } else {
+                console.error("Failed to send data. Status code:", addResponse.status);
             }
         } else {
             alert("Username is required to proceed.");
         }
+    } catch (error) {
+        console.error("An error occurred while checking or sending data:", error);
     }
 };
 
