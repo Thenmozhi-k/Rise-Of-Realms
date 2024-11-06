@@ -92,6 +92,51 @@ const Hero = () => {
 };
 
 
+const handleGusetClick = async () => {
+  // Prompt for the wallet address if not provided
+  const userAddress = prompt("Please enter your wallet address:");
+  
+  if (!userAddress || !userAddress.trim()) {
+      alert('Wallet address is required to proceed.');
+      return;
+  }
+
+  const address = userAddress.trim(); // Clean up any extra spaces
+  
+  try {
+      // Prompt for the username
+      const username = prompt("Please enter your username:");
+      
+      if (username && username.trim()) {
+          const payload = {
+              username: username.trim(),
+              user_wallet_address: address
+          };
+
+          const addResponse = await fetch('https://virtual-gf-py.vercel.app/user/add_user', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+          });
+
+          if (addResponse.ok) {
+              console.log("Data sent successfully:", await addResponse.json());
+              // Redirect to the new URL with address at the end
+              window.location.href = `https://protostar-metaverse.vercel.app/${address}`;
+          } else {
+              console.error("Failed to send data. Status code:", addResponse.status);
+          }
+      } else {
+          alert("Username is required to proceed.");
+      }
+  } catch (error) {
+      console.error("An error occurred while checking or sending data:", error);
+  }
+};
+
+
   return (
     <div  id='home'
       style={{
@@ -119,6 +164,9 @@ const Hero = () => {
         </p>
         <button onClick={handleClick} className="px-6 py-3 bg-[#8689EB] border border-[#07030b] text-white font-semibold rounded-lg shadow-md hover:border-[#64748B] hover:border hover:bg-[#07030b] transition duration-300">
           Join Now
+        </button>
+        <button onClick={handleGusetClick} className="px-6 ml-10 py-3 bg-[#8689EB] border border-[#07030b] text-white font-semibold rounded-lg shadow-md hover:border-[#64748B] hover:border hover:bg-[#07030b] transition duration-300">
+          Join as Guest
         </button>
       </div>
 
